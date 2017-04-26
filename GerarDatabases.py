@@ -25,12 +25,3 @@ n_samples = 1000
 for i in range(3):
     lista = gerar_arquivo(lista, n_samples=n_samples, nome_do_arquivo= "opinion " + str(i)+ ".csv")
 
-#lista = np.array(lista)
-
-#vectorizer = TfidfVectorizer(ngram_range=(1, 3), analyzer='char',
-#                             use_idf=False)
-
-#som = SimpleSOMMapper((20, 30), 400, learning_rate=0.05)
-
-#som.train(vectorizer)
-#plt.imshow(som.K, origin='lower')
