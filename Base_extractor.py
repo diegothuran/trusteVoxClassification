@@ -40,12 +40,16 @@ for i in range(5):
 
 classification_with_kmeans(databases_n_gram[0], 2)
 '''
-
+labels = np.array(labels)[:, 0]
+labels = labels.tolist()
 data = vectorize_database_tfidf(database)
+labels = map(lambda x:x.lower(), labels)
 
-X_train, X_test, y_train, y_test = split_database(data, np.array(labels)[:, 2])
+X_train, X_test, y_train, y_test = split_database(data, test)
 
 #kmeans_classification(database, test, test2, 2)
 #score = som_classificarion(X_train, y_train, X_test, y_test)
-print logistic_regression_classification(X_train, y_train, X_test, y_test)
-print svm_classification(X_train, y_train, X_test, y_test)
+#print logistic_regression_classification(X_train, y_train, X_test, y_test)
+#print svm_classification(X_train, y_train, X_test, y_test)
+#print mlp_classification(X_train, y_train, X_test, y_test)
+keras_mlp_classification(X_train, y_train, X_test, y_test)

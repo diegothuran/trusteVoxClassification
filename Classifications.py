@@ -1,5 +1,5 @@
 from Util import vectorize_database_tfidf, vectorize_database_hash
-import cPickle
+import cPickle, os
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn import metrics
 import random
@@ -8,6 +8,17 @@ from minisom import MiniSom
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
+from keras.utils.np_utils import to_categorical
+from keras.utils import np_utils
+from keras.models import Sequential
+from keras.layers import Dense, Embedding
+from keras.layers import LSTM
+from keras.layers.core import Dense, Dropout, Activation
+from keras.optimizers import RMSprop
+from keras.callbacks import ModelCheckpoint
+from hyperopt import Trials, STATUS_OK, tpe
+from hyperas import optim
+from hyperas.distributions import choice, uniform, conditional
 
 def kmeans_classification(database = [], labels = [], labels2 =[], n_clusters = int):
     data_tfidf = vectorize_database_tfidf(database)
@@ -39,6 +50,9 @@ def kmeans_classification(database = [], labels = [], labels2 =[], n_clusters = 
 
 def mlp_classification(X_train, y_train, X_test, y_test):
     clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes = (5, 2), random_state = 1)
+    clf.fit(X_train, y_train)
+    Z = clf.predict(X_test)
+    return metrics.accuracy_score(y_test, Z)
 
 def som_classificarion(X_train, y_train, X_test, y_test):
     som = MiniSom(6, 6, len(X_train[0]), learning_rate=0.1, sigma=0.3)
@@ -77,3 +91,42 @@ def svm_classification(X_train, y_train, X_test, y_test):
     clf.fit(X_train, y_train)
     Z = clf.predict(X_test)
     return metrics.accuracy_score(y_test, Z)
+
+def keras_mlp_classification(X_train, y_train, X_test, y_test):
+    """
+    Model providing function:
+
+    Create Keras model with double curly brackets dropped-in as needed.
+    Return value has to be a valid python dictionary with two customary keys:
+        - loss: Specify a numeric evaluation metric to be minimized
+        - status: Just use STATUS_OK and see hyperopt documentation if not feasible
+    The last one is optional, though recommended, namely:
+        - model: specify the model just created so that we can later use it again.
+    """
+    #X_train = X_train.reshape(2010, 2000)
+    #X_test = X_test.reshape(990, 2000)
+    #y_train = np_utils.to_categorical(y_train, 8)
+    #y_test = np_utils.to_categorical(y_test, 8)
+
+    model = Sequential()
+    model.add(Embedding(2000, 128))
+    model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
+    model.add(Dense(1, activation='sigmoid'))
+
+    model.summary()
+
+    # try using different optimizers and different optimizer configs
+    model.compile(loss='binary_crossentropy',
+                  optimizer='adam',
+                  metrics=['accuracy'])
+
+    history = model.fit(X_train, y_train,
+                        batch_size=100,
+                        epochs=5,
+                        validation_data= (X_test, y_test))
+
+    score, acc = model.evaluate(X_test, y_test,
+                                batch_size=100)
+    print('Test score:', score)
+    print('Test accuracy:', acc)
+    return {'loss': -acc, 'status': STATUS_OK, 'model': model}

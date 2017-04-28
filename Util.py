@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
+import random
 from sklearn.feature_extraction.text import CountVectorizer
 import cPickle
 from nltk.corpus import stopwords
@@ -95,9 +96,20 @@ def vectorize_database_hash(database):
     return data
 
 def split_database(database=[], labels =[]):
+
     database = np.array(database)
     labels = np.array(labels)
     return train_test_split(database, labels, test_size = 0.33, random_state = 50)
 
-def feature_vector_format(vectorizer):
-    pass
+def load_database():
+    import os
+    database = []
+    labels =[]
+    for path_to_file in os.listdir("Data"):
+        data, labe = read_file(os.path.join("Data", path_to_file))
+        database.append(data)
+        labels.append(labe)
+    database = merge_lists(database)
+    labels = merge_lists(labels)
+
+    return split_database(database, np.array(labels)[:, 1])
