@@ -109,8 +109,8 @@ def keras_mlp_classification(X_train, y_train, X_test, y_test):
     #y_test = np_utils.to_categorical(y_test, 8)
 
     model = Sequential()
-    model.add(Embedding(2000, 128))
-    model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
+    model.add(Embedding(2000, {{choice([64, 128, 256, 512, 1024])}}))
+    model.add(LSTM(128, dropout={{uniform(0, 1)}}, recurrent_dropout={{uniform(0, 1)}}))
     model.add(Dense(1, activation='sigmoid'))
 
     model.summary()

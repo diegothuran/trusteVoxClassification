@@ -111,5 +111,18 @@ def load_database():
         labels.append(labe)
     database = merge_lists(database)
     labels = merge_lists(labels)
+    test = []
+    test2 = []
+    for label in labels:
+        if (label[0] == 'Product'):
+            test.append(0.)
+        else:
+            test.append(1.)
 
-    return split_database(database, np.array(labels)[:, 1])
+        if (label[1] == 'Store'):
+            test2.append(0.)
+        else:
+            test2.append(1.)
+
+    database = vectorize_database_tfidf(database)
+    return split_database(database, test)
