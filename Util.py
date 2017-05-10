@@ -4,6 +4,7 @@ import random
 from sklearn.feature_extraction.text import CountVectorizer
 import cPickle
 from nltk.corpus import stopwords
+from sklearn import preprocessing
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.model_selection import train_test_split
@@ -27,7 +28,7 @@ def read_file(path):
         for row in spamreader:
             row = map(lambda x: x if x != '' else '0', row)
             database.append(row[0])
-            labels.append(row[1:-1])
+            labels.append(row[1:3])
 
     return database, labels
 
@@ -75,6 +76,7 @@ def generate_n_gram_database(database = [], n = int, file_name = str):
     return n_gram_database
 
 def vectorize_database_tfidf(database):
+    database = map(lambda x: x.lower(), database)
     pt_stop_words = set(stopwords.words('portuguese'))
     vectorizer = TfidfVectorizer(max_df=0.5, max_features=2000, lowercase=True,
                                  min_df=2, stop_words=pt_stop_words, ngram_range=(1, 5),
@@ -99,7 +101,7 @@ def split_database(database=[], labels =[]):
 
     database = np.array(database)
     labels = np.array(labels)
-    return train_test_split(database, labels, test_size = 0.33, random_state = 50)
+    return train_test_split(database, labels, test_size=0.2)
 
 def load_database():
     import os
@@ -111,18 +113,13 @@ def load_database():
         labels.append(labe)
     database = merge_lists(database)
     labels = merge_lists(labels)
-    test = []
-    test2 = []
-    for label in labels:
-        if (label[0] == 'Product'):
-            test.append(0.)
-        else:
-            test.append(1.)
-
-        if (label[1] == 'Store'):
-            test2.append(0.)
-        else:
-            test2.append(1.)
+    labels = np.array(labels)
+    labels = labels
 
     database = vectorize_database_tfidf(database)
-    return split_database(database, test)
+    return database, labels
+
+def encoding_labels(labels, labels_to_encode):
+    le = preprocessing.LabelEncoder()
+    le.fit(labels_to_encode)
+    return le.transform(labels)
