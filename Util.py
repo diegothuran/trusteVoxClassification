@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 import csv
+import string
+import nltk
 import random
 from sklearn.feature_extraction.text import CountVectorizer
 import cPickle
 from nltk.corpus import stopwords
+from nltk import stem, word_tokenize
 from sklearn import preprocessing
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.model_selection import train_test_split
+from nltk import stem
+from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
 import numpy as np
@@ -38,7 +43,7 @@ def merge_lists(lists):
     :param lists: listas a serem unidas
     :return: uma lista com as informações contidas nas listas prévias
     """
-    return lists[0] + lists[1] + lists[2]
+    return lists[0] + lists[1] + lists[2] + lists[3]
 
 def find_ngrams(input_list, n):
     """
@@ -77,13 +82,14 @@ def generate_n_gram_database(database = [], n = int, file_name = str):
 
 def vectorize_database_tfidf(database):
     database = map(lambda x: x.lower(), database)
+    database_ = [tokenize(sentence) for sentence in database]
+
     pt_stop_words = set(stopwords.words('portuguese'))
-    vectorizer = TfidfVectorizer(max_df=0.5, max_features=2000, lowercase=True,
-                                 min_df=2, stop_words=pt_stop_words, ngram_range=(1, 5),
+    vectorizer = TfidfVectorizer(max_df=0.75, max_features=5000, lowercase=False, min_df=2, stop_words=pt_stop_words, ngram_range=(1, 4),
                                  use_idf=True)
-    data = vectorizer.fit_transform(database)
-    terms = vectorizer.get_feature_names()
-    return data.todense()
+    data = vectorizer.fit_transform(database_)
+
+    return data.todense(), vectorizer
 
 def vectorize_database_hash(database):
     pt_stop_words = set(stopwords.words('portuguese'))
@@ -101,25 +107,64 @@ def split_database(database=[], labels =[]):
 
     database = np.array(database)
     labels = np.array(labels)
-    return train_test_split(database, labels, test_size=0.2)
+    return train_test_split(database, labels, test_size=0.01)
 
 def load_database():
     import os
     database = []
     labels =[]
-    for path_to_file in os.listdir("Data"):
-        data, labe = read_file(os.path.join("Data", path_to_file))
-        database.append(data)
-        labels.append(labe)
-    database = merge_lists(database)
-    labels = merge_lists(labels)
+    database, labels = read_file('Data/database.csv')
+
     labels = np.array(labels)
     labels = labels
+    replace_data(labels, 'Pro', 'Product')
+    replace_data(labels, 'Prod', 'Product')
+    replace_data(labels, ' ', '0')
 
-    database = vectorize_database_tfidf(database)
-    return database, labels
+    database, vectorizer = vectorize_database_tfidf(database)
+    return database, labels, vectorizer
+
+def replace_data(list_labels, itens_to_replace, replacement_value):
+    indices_to_replace = [i for i,x in enumerate(list_labels) if x[0]==itens_to_replace]
+    for i in indices_to_replace:
+        list_labels[i][0] = replacement_value
+
+def write_csv(database, labels):
+    a = database + labels.tolist()
+    with open('database.csv', 'wb') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=' ',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for line in a:
+            spamwriter.writerow(a)
+
 
 def encoding_labels(labels, labels_to_encode):
     le = preprocessing.LabelEncoder()
     le.fit(labels_to_encode)
     return le.transform(labels)
+
+def tokenize(text):
+    steemming = stem.RSLPStemmer()
+    tokens = text.decode('utf8').split()
+    tokens = [i for i in tokens if i not in string.punctuation]
+    stems = [steemming.stem(token) for token in tokens]
+    stems = join_strings(stems)
+    return stems
+
+def join_strings(list_of_strings):
+    return " ".join(list_of_strings)
+
+def load_database2():
+    import os
+    database = []
+    labels =[]
+    database, labels = read_file('Data/database.csv')
+
+    labels = np.array(labels)
+    labels = labels
+    replace_data(labels, 'Pro', 'Product')
+    replace_data(labels, 'Prod', 'Product')
+    replace_data(labels, ' ', '0')
+
+    #database, vectorizer = vectorize_database_tfidf(database)
+    return database, labels

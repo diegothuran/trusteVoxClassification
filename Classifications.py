@@ -9,6 +9,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn import preprocessing
+from Util import encoding_labels, split_database
 
 def kmeans_classification(database = [], labels = [], labels2 =[], n_clusters = int):
     data_tfidf = vectorize_database_tfidf(database)
@@ -38,10 +39,21 @@ def kmeans_classification(database = [], labels = [], labels2 =[], n_clusters = 
     print("Silhouette Coefficient: %0.3f"
           % metrics.silhouette_score(data_tfidf, labels2, sample_size=1000))
 
-def mlp_classification(X_train, y_train, X_test, y_test, randomStante = int):
-    clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes = (5, 2), random_state = randomStante)
-    clf.fit(X_train, y_train)
-    Z = clf.predict(X_test)
+def mlp_classification(database, labels, randomState):
+    X_train, X_test, y_train, y_test = split_database(database, labels)
+
+    y_train_product = encoding_labels(y_train[:, 0], ['0', 'Product'])
+    y_train_store = encoding_labels(y_train[:, 1], ['0', 'Store'])
+    y_test_product = encoding_labels(y_train[:, 0], ['0', 'Product'])
+    y_test_store = encoding_labels(y_train[:, 1], ['0', 'Store'])
+
+    clf_product = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes = (50, 2), random_state = randomState)
+    clf_store = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes = (50, 2), random_state = randomState)
+
+    clf_product.fit(X_train, y_train_product)
+    clf_store.fit(X_train, y_train_store)
+
+    return test(clf_product, clf_store, X_test, y_test)
     return metrics.accuracy_score(y_test, Z)
 
 def som_classificarion(X_train, y_train, X_test, y_test):
@@ -75,6 +87,41 @@ def logistic_regression_classification(X_train, y_train, X_test, y_test):
     clf.fit(X_train, y_train)
     Z = clf.predict(X_test)
     return metrics.accuracy_score(y_test, Z)
+
+def logistic_regression_classification(database, labels):
+    X_train, X_test, y_train, y_test = split_database(database, labels)
+
+    y_train_product = encoding_labels(y_train[:, 0], ['0', 'Product'])
+    y_train_store = encoding_labels(y_train[:, 1], ['0', 'Store'])
+    y_test_product = encoding_labels(y_train[:, 0], ['0', 'Product'])
+    y_test_store = encoding_labels(y_train[:, 1], ['0', 'Store'])
+
+    clf_product = LogisticRegression(C=1e5)
+    clf_store = LogisticRegression(C=1e5)
+
+    clf_product.fit(X_train, y_train_product)
+    clf_store.fit(X_train, y_train_store)
+
+    return test(clf_product, clf_store, X_test, y_test)
+
+
+
+def test(clf1, clf2, patters, labels):
+    labels_1 = encoding_labels(labels[:, 0], ['0', 'Product'])
+    labels_2 = encoding_labels(labels[:, 1], ['0', 'Store'])
+    acertos = 0
+    for i in range(len(patters)):
+        a = [labels_1[i], labels_2[i]]
+        b = predict(clf1, clf2, patters[i])
+        if np.array(b).all() == np.array(a).all():
+            acertos += 1
+    return float(float(acertos)/float(len(patters)))
+
+def predict(clf1, clf2, patter):
+    is_product = clf1.predict(patter)
+    is_loja = clf2.predict(patter)
+
+    return [is_product[0], is_loja[0]]
 
 def svm_classification(X_train, y_train, X_test, y_test, kernel = 'linear'):
     clf = SVC(kernel=kernel)
