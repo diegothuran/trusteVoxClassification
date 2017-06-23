@@ -70,7 +70,7 @@ if __name__ == "__main__":
     results = []
     melhor = 0
     #print np.logspace(-5, 3, 5)
-    for i in range(100):
+    for i in range(30):
         X_train, X_test, y_train, y_test = split_database(database, labels)
 
         ensemble = Ensemble()
@@ -131,6 +131,29 @@ if __name__ == "__main__":
     print str(ensemble.predict(a)) + " " + "[1, 0]"
     a = vectorizer.transform(
         [tokenize("Curti muito essa carteira, mas fui mal atendido.")])  # [1, 0]
+    a = a.todense()
+    print str(ensemble.predict(a)) + " " + "[1, 1]"
+    a = vectorizer.transform(
+        [tokenize("Sempre quis ter um desses e adorei. Só não gostei de ter de esperar mais de 20 dias.")])  # [1, 0]
+    a = a.todense()
+    print str(ensemble.predict(a)) + " " + "[1, 1]"
+    a = vectorizer.transform(
+        [tokenize("Sei que a culpa é dos Correios, mas passou a festa e não consegui usar a roupa. Chateada.")])  # [1, 0]
+    a = a.todense()
+    print str(ensemble.predict(a)) + " " + "[1, 1]"
+    a = vectorizer.transform(
+        [tokenize(
+            "A tiara é linda, mas não gostei do atendimento.")])  # [1, 0]
+    a = a.todense()
+    print str(ensemble.predict(a)) + " " + "[1, 1]"
+    a = vectorizer.transform(
+        [tokenize(
+            "Essa furadeira é ótima, mas não compro mais com vocês.")])  # [1, 0]
+    a = a.todense()
+    print str(ensemble.predict(a)) + " " + "[1, 1]"
+    a = vectorizer.transform(
+        [tokenize(
+            "Realmente muito difícil pra achar os produtos. Não curti.")])  # [1, 0]
     a = a.todense()
     print str(ensemble.predict(a)) + " " + "[1, 1]"
 
