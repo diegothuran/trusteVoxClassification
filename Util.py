@@ -110,7 +110,7 @@ def split_database(database=[], labels =[]):
 
     database = np.array(database)
     labels = np.array(labels)
-    return train_test_split(database, labels, test_size=0.01)
+    return train_test_split(database, labels, test_size=0.5)
 
 def load_database():
     import os

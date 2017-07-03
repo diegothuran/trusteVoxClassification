@@ -24,10 +24,11 @@ class Ensemble:
 
 
         print "Inicializando MLP..."
-        self.svm = LogisticRegression()
-        self.svm2 = LogisticRegression()
+        #self.svm = LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='newton-cg')
+        #self.svm2 = LogisticRegression(C=1.0, max_iter=100, solver='liblinear', penalty='l2')
         # inicializando SVM
-
+        self.svm = SGDClassifier(average=True, penalty='l2', loss='hinge', alpha=0.0001, epsilon=0.5, l1_ratio=0.01)
+        self.svm2 = SGDClassifier(average=True, penalty='l2', loss='log', alpha=0.0001, epsilon=0.43, l1_ratio=0.01)
 
     def training_models(self, train_dataset, labels_for_train_dataset_1, labels_for_train_dataset_2):
         labels_1 = encoding_labels(labels_for_train_dataset_1, ['0', 'Product'])
@@ -60,8 +61,19 @@ class Ensemble:
 
 
     def save_ensemble(self):
-        joblib.dump(self.svm, 'ClassifierWeigths/svm-02.pkl')
-        joblib.dump(self.svm2, 'ClassifierWeigths/svm2-02.pkl')
+        joblib.dump(self.svm, 'ClassifierWeigths/sgd-02.pkl')
+        joblib.dump(self.svm2, 'ClassifierWeigths/sgd2-02.pkl')
+
+    def testinho(self, patterns=[], labels=[]):
+        for i in range(len(patterns)):
+            a = vectorizer.transform([tokenize(patterns[i])])
+            a = a.todense()
+            classification = ensemble.predict(a)
+            if labels[i] == classification:
+                print patterns[i] + " " + str(classification) + " " + str(labels[i]) + " ="
+            else:
+                print patterns[i] + " " +str(classification) + " " + str(labels[i]) + " !="
+
 
 
 
@@ -91,71 +103,16 @@ if __name__ == "__main__":
     print np.std(np.array(results))
     print melhor
     joblib.dump(vectorizer, 'Data/vectorizer.pkl')
+    patterns = ["Ótimo produto. Boa durabilidade e chegou rapidamente.", "Ótimo produto. Boa durabilidade e a entrega me surpreendeu positivamente.",
+                "A bisnaga que eu recebi não veio totalmente cheia.", "Não usei ainda a amostra que recebi", "Não tive nenhum problema com a compra pela internet",
+                "A chuteira é boa, mas o preço é salgado.", "A chuteira é boa mas a cor é horrorosa. Fui muito mal atendido.", "site muito complicado, não consegui realizar minha compra",
+                "Ótima essa chapinha, mas o atendimento foi péssimo", "gostei um pouco mas depois de dois dias essa coisa parou de funcionar", "curti muito meu leptop novo!",
+                "Curti muito essa carteira, mas fui mal atendido.", "Sempre quis ter um desses e adorei. Só não gostei de ter de esperar mais de 20 dias.",
+                "Sei que a culpa é dos Correios, mas passou a festa e não consegui usar a roupa. Chateada.", "A tiara é linda, mas não gostei do atendimento.",
+                "Essa furadeira é ótima, mas não compro mais com vocês.", "Realmente muito difícil pra achar os produtos. Não curti.",
+                "Não achei legal ter de esperar quase 1 mês.", "Não achei legal ter de esperar quase 1 mês.", "esperar um mês para receber foi a picada",
+                "Produto ótimo, entrega tudo que promete!", "Quero meu dinheiro de volta", "O produto é ótimo. E adorei o preço"]
 
-    a = vectorizer.transform([tokenize("Ótimo produto. Boa durabilidade e chegou rapidamente.")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform([tokenize("Ótimo produto. Boa durabilidade e a entrega me surpreendeu positivamente.")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform([tokenize("A bisnaga que eu recebi não veio totalmente cheia.")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 0]"
-    a = vectorizer.transform([tokenize("Não usei ainda a amostra que recebi")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[0, 0]"
-    a = vectorizer.transform([tokenize("Não tive nenhum problema com a compra pela internet")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[0, 1]"
-    a = vectorizer.transform([tokenize("A chuteira é boa, mas o preço é salgado.")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform([tokenize("A chuteira é boa mas a cor é horrorosa. Fui muito mal atendido.")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform([tokenize("site muito complicado, não consegui realizar minha compra")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[0, 1]"
-    a = vectorizer.transform([tokenize("atrasou")])
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[0, 1]"
-    a = vectorizer.transform([tokenize("Ótima essa chapinha, mas o atendimento foi péssimo")]) # [1, 1]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform([tokenize("gostei um pouco mas depois de dois dias essa coisa parou de funcionar")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 0]"
-    a = vectorizer.transform(
-        [tokenize("curti muito meu leptop novo!")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 0]"
-    a = vectorizer.transform(
-        [tokenize("Curti muito essa carteira, mas fui mal atendido.")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform(
-        [tokenize("Sempre quis ter um desses e adorei. Só não gostei de ter de esperar mais de 20 dias.")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform(
-        [tokenize("Sei que a culpa é dos Correios, mas passou a festa e não consegui usar a roupa. Chateada.")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform(
-        [tokenize(
-            "A tiara é linda, mas não gostei do atendimento.")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform(
-        [tokenize(
-            "Essa furadeira é ótima, mas não compro mais com vocês.")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-    a = vectorizer.transform(
-        [tokenize(
-            "Realmente muito difícil pra achar os produtos. Não curti.")])  # [1, 0]
-    a = a.todense()
-    print str(ensemble.predict(a)) + " " + "[1, 1]"
-
-
-
+    labels = [[1, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 1], [0, 1], [0, 1], [1, 1], [1, 0], [1, 0],
+              [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 1], [0, 1], [0, 1], [0, 1], [1, 1], [0, 1], [1, 1]]
+    ensemble.testinho(patterns, labels)
