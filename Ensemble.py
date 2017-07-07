@@ -24,11 +24,13 @@ class Ensemble:
 
 
         print "Inicializando MLP..."
-        #self.svm = LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='newton-cg')
-        #self.svm2 = LogisticRegression(C=1.0, max_iter=100, solver='liblinear', penalty='l2')
+        #self.svm = LogisticRegression(C=1e5)
+        #self.svm2 = LogisticRegression(C=1e5)
+        self.svm = LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='newton-cg')
+        self.svm2 = LogisticRegression(C=1.0, max_iter=100, solver='liblinear', penalty='l2')
         # inicializando SVM
-        self.svm = SGDClassifier(average=True, penalty='l2', loss='hinge', alpha=0.0001, epsilon=0.5, l1_ratio=0.01)
-        self.svm2 = SGDClassifier(average=True, penalty='l2', loss='log', alpha=0.0001, epsilon=0.43, l1_ratio=0.01)
+        #self.svm = SGDClassifier(average=True, penalty='l2', loss='hinge', alpha=0.0001, epsilon=0.5, l1_ratio=0.01)
+        #self.svm2 = SGDClassifier(average=True, penalty='l2', loss='log', alpha=0.0001, epsilon=0.43, l1_ratio=0.01)
 
     def training_models(self, train_dataset, labels_for_train_dataset_1, labels_for_train_dataset_2):
         labels_1 = encoding_labels(labels_for_train_dataset_1, ['0', 'Product'])
@@ -61,8 +63,8 @@ class Ensemble:
 
 
     def save_ensemble(self):
-        joblib.dump(self.svm, 'ClassifierWeigths/sgd-02.pkl')
-        joblib.dump(self.svm2, 'ClassifierWeigths/sgd2-02.pkl')
+        joblib.dump(self.svm, 'ClassifierWeigths/svm-02.pkl')
+        joblib.dump(self.svm2, 'ClassifierWeigths/svm2-02.pkl')
 
     def testinho(self, patterns=[], labels=[]):
         for i in range(len(patterns)):
@@ -111,8 +113,13 @@ if __name__ == "__main__":
                 "Sei que a culpa é dos Correios, mas passou a festa e não consegui usar a roupa. Chateada.", "A tiara é linda, mas não gostei do atendimento.",
                 "Essa furadeira é ótima, mas não compro mais com vocês.", "Realmente muito difícil pra achar os produtos. Não curti.",
                 "Não achei legal ter de esperar quase 1 mês.", "Não achei legal ter de esperar quase 1 mês.", "esperar um mês para receber foi a picada",
-                "Produto ótimo, entrega tudo que promete!", "Quero meu dinheiro de volta", "O produto é ótimo. E adorei o preço"]
+                "Produto ótimo, entrega tudo que promete!", "Quero meu dinheiro de volta", "O produto é ótimo. E adorei o preço",
+                "Chegou direitinho, mas a pessoa que está usando não gostou! disse que o housekeeper não funciona.", "show de bola", "vale muito a pena",
+                "A confiabilidade dessa placa é uma coisa fora de sério", "até o momento não tenho nada do que reclamar", "momento", "até agora", "Produto não funcionou corretamente", "Demora muito tempo o preparo.",
+                "Não suportou o peso, e entortou as varetas.", "O material do produto é uma porcaria, e a embalagem uma merd@.",
+                "Um produto comum e para a compra desse item não vejo necessidade de muita informação. A forma como está exposto já resolve."]
 
     labels = [[1, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 1], [0, 1], [0, 1], [1, 1], [1, 0], [1, 0],
-              [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 1], [0, 1], [0, 1], [0, 1], [1, 1], [0, 1], [1, 1]]
+              [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 1], [0, 1], [0, 1], [0, 1], [1, 1], [1, 1], [1, 1], [1, 0], [1, 0],
+              [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]
     ensemble.testinho(patterns, labels)

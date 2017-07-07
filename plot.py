@@ -19,22 +19,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier, Perceptron
 from sklearn.linear_model import PassiveAggressiveClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
 import Util
 
 heldout = [0.95, 0.90, 0.75, 0.50, 0.01]
 rounds = 20
 digits = datasets.load_digits()
 X, y, _ = Util.load_database()
-y = np.array(y)[:, 1]
+y = np.array(y)[:, 0]
 
 classifiers = [
     ("SGD", SGDClassifier()),
     ("ASGD", SGDClassifier(average=True)),
-    ("Passive-Aggressive I", PassiveAggressiveClassifier(loss='hinge',
-                                                         C=1.0)),
-    ("Passive-Aggressive II", PassiveAggressiveClassifier(loss='squared_hinge',
-                                                          C=1.0)),
-    ("SAG", LogisticRegression(solver='sag', tol=1e-1, C=1.e4 / X.shape[0])),
+    ("Simple Regression", LogisticRegression(C=1e5)),
+    ("MLP", MLPClassifier()),
     ("Newton", LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='newton-cg'))
 ]
 
