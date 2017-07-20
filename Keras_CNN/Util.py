@@ -16,6 +16,7 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
 import numpy as np
+import time
 
 def read_file(path):
     """
@@ -171,3 +172,17 @@ def load_database2():
 
     #database, vectorizer = vectorize_database_tfidf(database)
     return database, labels
+
+def timing(f):
+    """
+        Método para cauluar o tempo de execução de um outro método
+    :param f: Método
+    :return: Tempo de execução
+    """
+    def wrap(*args):
+        time1 = time.time()
+        ret = f(*args)
+        time2 = time.time()
+        print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
+        return ret
+    return wrap

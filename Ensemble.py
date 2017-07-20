@@ -6,6 +6,7 @@ from sklearn.svm import SVC, LinearSVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
 import pickle
+import ignore_warnings
 
 
 class Ensemble:
@@ -24,10 +25,14 @@ class Ensemble:
 
 
         print "Inicializando MLP..."
+        #self.svm = SVC(kernel='linear', C=1000.0, probability=True, decision_function_shape='ovo',
+        #               tol=0.001, shrinking=True, gamma=1.0)
+        #self.svm2 = SVC(kernel='linear', C=1000.0, probability=True, decision_function_shape='ovo',
+        #                tol=0.001, shrinking=True, gamma=1.0)
         #self.svm = LogisticRegression(C=1e5)
         #self.svm2 = LogisticRegression(C=1e5)
-        self.svm = LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='newton-cg')
-        self.svm2 = LogisticRegression(C=1.0, max_iter=100, solver='liblinear', penalty='l2')
+        self.svm = LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='liblinear')
+        self.svm2 = LogisticRegression(C=1.0, max_iter=100, solver='newton-cg', penalty='l2')
         # inicializando SVM
         #self.svm = SGDClassifier(average=True, penalty='l2', loss='hinge', alpha=0.0001, epsilon=0.5, l1_ratio=0.01)
         #self.svm2 = SGDClassifier(average=True, penalty='l2', loss='log', alpha=0.0001, epsilon=0.43, l1_ratio=0.01)
@@ -42,11 +47,10 @@ class Ensemble:
         self.svm.fit(train_dataset, labels_1)
         #print "Training MLP..."
         #self.svm.fit(train_dataset, labels_2)
-
+    @timing
     def predict(self, patter):
         is_product = self.svm.predict(patter)
         is_loja = self.svm2.predict(patter)
-        #polarity = self.mlp.predict(patter)
 
         return [is_product[0], is_loja[0]]
 
@@ -77,16 +81,13 @@ class Ensemble:
                 print patterns[i] + " " +str(classification) + " " + str(labels[i]) + " !="
 
 
-
-
 if __name__ == "__main__":
     database, labels, vectorizer = load_database()
     results = []
     melhor = 0
-    #print np.logspace(-5, 3, 5)
-    for i in range(30):
-        X_train, X_test, y_train, y_test = split_database(database, labels)
 
+    for i in range(10):
+        X_train, X_test, y_train, y_test = split_database(database, labels)
         ensemble = Ensemble()
         ensemble.training_models(X_train, y_train[:, 0], y_train[:, 1])
         result = ensemble.test(X_test, y_test)
@@ -117,9 +118,12 @@ if __name__ == "__main__":
                 "Chegou direitinho, mas a pessoa que está usando não gostou! disse que o housekeeper não funciona.", "show de bola", "vale muito a pena",
                 "A confiabilidade dessa placa é uma coisa fora de sério", "até o momento não tenho nada do que reclamar", "momento", "até agora", "Produto não funcionou corretamente", "Demora muito tempo o preparo.",
                 "Não suportou o peso, e entortou as varetas.", "O material do produto é uma porcaria, e a embalagem uma merd@.",
-                "Um produto comum e para a compra desse item não vejo necessidade de muita informação. A forma como está exposto já resolve."]
+                "Um produto comum e para a compra desse item não vejo necessidade de muita informação. A forma como está exposto já resolve.",
+                "isso é muito bom", "isso é uma merda"]
 
     labels = [[1, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 1], [0, 1], [0, 1], [1, 1], [1, 0], [1, 0],
               [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 1], [0, 1], [0, 1], [0, 1], [1, 1], [1, 1], [1, 1], [1, 0], [1, 0],
-              [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]
+              [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]
+
+
     ensemble.testinho(patterns, labels)

@@ -16,6 +16,7 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
 import numpy as np
+import time
 
 def read_file(path):
     """
@@ -116,7 +117,8 @@ def load_database():
     import os
     database = []
     labels =[]
-    database, labels = read_file('Data/database.csv')
+    database, labels = read_file('Data/database-wine.csv')
+    database, labels = normalize_dataset(database, labels)
 
     labels = np.array(labels)
     labels = labels
@@ -126,6 +128,18 @@ def load_database():
 
     database, vectorizer = vectorize_database_tfidf(database)
     return database, labels, vectorizer
+
+def normalize_dataset(dataset, labels):
+
+    erased = 0
+    while erased <= 300:
+        r = random.randint(0, len(labels) - 1)
+
+        if (labels[r][1] == 'Store'):
+            dataset.pop(r)
+            labels.pop(r)
+            erased += 1
+    return dataset, labels
 
 def replace_data(list_labels, itens_to_replace, replacement_value):
     indices_to_replace = [i for i,x in enumerate(list_labels) if x[0]==itens_to_replace]
@@ -171,3 +185,17 @@ def load_database2():
 
     #database, vectorizer = vectorize_database_tfidf(database)
     return database, labels
+
+def timing(f):
+    """
+        Método para cauluar o tempo de execução de um outro método
+    :param f: Método
+    :return: Tempo de execução
+    """
+    def wrap(*args):
+        time1 = time.time()
+        ret = f(*args)
+        time2 = time.time()
+        print '%s demorou  %0.3f ms para ser executado' % (f.func_name, (time2-time1)*1000.0)
+        return ret
+    return wrap
