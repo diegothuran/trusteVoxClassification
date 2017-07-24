@@ -117,8 +117,8 @@ def load_database():
     import os
     database = []
     labels =[]
-    database, labels = read_file('Data/database-wine.csv')
-    database, labels = normalize_dataset(database, labels)
+    database, labels = read_file('Data/database.csv')
+    #database, labels = normalize_dataset(database, labels)
 
     labels = np.array(labels)
     labels = labels

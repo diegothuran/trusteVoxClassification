@@ -9,7 +9,7 @@ import ignore_warnings
 def main():
 	results = {}
 	training_samples, training_classes, vectorizer = Util.load_database()
-	training_classes = training_classes[:, 1]
+	training_classes = training_classes[:, 0]
 	# ==================================================
 	# Support vector machine classifier
 	# ==================================================
