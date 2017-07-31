@@ -53,13 +53,13 @@ class Ensemble:
 
 
     def save_ensemble(self):
-        joblib.dump(self.clf, 'ClassifierWeigths/clf-02.pkl')
-        joblib.dump(self.clf2, 'ClassifierWeigths/clf2-02.pkl')
+        joblib.dump(self.clf, 'ClassifierWeigths/svm-02.pkl')
+        joblib.dump(self.clf2, 'ClassifierWeigths/svm2-02.pkl')
 
     def testinho(self, patterns, labels, verbose=0):
         
-        self.clf = joblib.load('ClassifierWeigths/clf-02.pkl')
-        self.clf2 = joblib.load('ClassifierWeigths/clf2-02.pkl')
+        self.clf = joblib.load('ClassifierWeigths/svm-02.pkl')
+        self.clf2 = joblib.load('ClassifierWeigths/svm2-02.pkl')
 
         errors = 0
 
@@ -85,4 +85,4 @@ if __name__ == "__main__":
 
     patterns, _ = read_file("Data/database.csv")
 
-    ensemble.testinho(patterns, labels)
+    ensemble.testinho(patterns, labels, verbose=1)

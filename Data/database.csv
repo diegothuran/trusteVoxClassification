@@ -6552,8 +6552,24 @@ Estes ocorridos me fizeram arrepender-me da compra diversas vezes.,,Store,,,,,,,
 "Amei esse perfume, mas a embalagem veio amassada.",Product,Store,Bad
 "a embalagem veio amassada.",,Store,Bad
 "O produto é muito bom, mas a transportadora pisou na bola.",Product,Store,Bad
+"O produto é muito bom, mas a transportadora pisou na bola.",Product,Store,Bad
+"O produto é muito bom, mas a transportadora pisou na bola.",Product,Store,Bad
+"O produto é muito bom, mas a transportadora pisou na bola.",Product,Store,Bad
+"O produto é muito bom, mas a transportadora pisou na bola.",Product,Store,Bad
+"a transportadora pisou na bola.",,Store,Bad
+"a transportadora pisou na bola.",,Store,Bad
+"a transportadora pisou na bola.",,Store,Bad
+"a transportadora pisou na bola.",,Store,Bad
 "a transportadora pisou na bola.",,Store,Bad
 "a transportadora atrasou.",Product,Store,Bad
+"a transportadora atrasou.",Product,Store,Bad
+"a transportadora atrasou.",Product,Store,Bad
+"a transportadora atrasou.",Product,Store,Bad
+"a transportadora atrasou.",Product,Store,Bad
+"a transportadora rasgou o pacote.",Product,Store,Bad
+"a transportadora rasgou o pacote.",Product,Store,Bad
+"a transportadora rasgou o pacote.",Product,Store,Bad
+"a transportadora rasgou o pacote.",Product,Store,Bad
 "a transportadora rasgou o pacote.",Product,Store,Bad
 "O produto é muito bom, mas a transportadora atrasou.",Product,Store,Bad
 "O produto é muito bom, mas nao sei se foi a transportadora mas a caixa chegou amassada.",Product,Store,Bad
@@ -6805,3 +6821,16 @@ OBRIGADO POR MANDAR O KIT. MAS TENHO DUVIDAS SE VOU CONTINUAR COMPRANDO NO SAIT.
 "Um produto comum e para a compra desse item não vejo necessidade de muita informação. A forma como está exposto já resolve",Product,,Bad
 "Um produto comum e para a compra desse item não vejo necessidade de muita informação. A forma como está exposto já resolve",Product,,Bad
 "Um produto comum e para a compra desse item não vejo necessidade de muita informação. A forma como está exposto já resolve",Product,,Bad
+"adorei esse produto, mas a entrega e o antendimento são fantásticos",Product,Store,Good
+"adorei esse produto, a entrega e o antendimento são fantásticos,",Product,Store,Good
+"Atende minha expectativa e o atendimento para os cortes é excepcional.",Product,Store,Good
+"Achei muito ruim o material e atrasou muito!",Product,Store,Bad
+"Achei muito ruim o material e atrasou muito!",Product,Store,Bad
+"Achei muito ruim o material e atrasou muito!",Product,Store,Bad
+"Achei muito ruim o material e atrasou muito!",Product,Store,Bad
+"Achei muito ruim o material e atrasou muito!",Product,Store,Bad
+"Achei muito ruim o material e atrasou muito!",Product,Store,Bad
+"O produto é ótimo. E adorei o preço",Product,Store,Good
+"O produto é ótimo. E adorei o preço",Product,Store,Good
+"O produto é ótimo. E adorei o preço",Product,Store,Good
+"Veio com defeito",Product,,Bad
