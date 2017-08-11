@@ -17,6 +17,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
 import numpy as np
 import time
+from imblearn.over_sampling import ADASYN
 
 def read_file(path):
     """
@@ -93,7 +94,7 @@ def vectorize_database_tfidf(database):
                                  use_idf=True)
     data = vectorizer.fit_transform(database_)
 
-    return data.todense(), vectorizer
+    return data, vectorizer
 
 def vectorize_database_hash(database):
     pt_stop_words = set(stopwords.words('portuguese'))
@@ -111,14 +112,14 @@ def split_database(database=[], labels =[]):
 
     database = np.array(database)
     labels = np.array(labels)
-    return train_test_split(database, labels, test_size=0.1)
+    return train_test_split(database, labels, test_size=0.01)
 
 def load_database():
     import os
     database = []
     labels =[]
     database, labels = read_file('Data/database.csv')
-    #database, labels = normalize_dataset(database, labels)
+    database, labels = normalize_dataset(database, labels)
 
     labels = np.array(labels)
     labels = labels
@@ -128,6 +129,18 @@ def load_database():
 
     database, vectorizer = vectorize_database_tfidf(database)
     return database, labels, vectorizer
+
+def load_store_database():
+    print('========= Buscando Dados Treino =============')
+    Dados = []
+    with open('Data/store_reviews.csv', 'rb') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            Dados.append(row[0])
+    print('=========== DONE =============================')
+
+    database, vectorizer = vectorize_database_tfidf(Dados)
+    return database, vectorizer
 
 def normalize_dataset(dataset, labels):
 

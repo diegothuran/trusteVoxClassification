@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
-import pickle
+from sklearn.svm import SVC
 import ignore_warnings
 
 
@@ -16,7 +16,7 @@ class Ensemble:
        
         self.clf = LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='liblinear')
         self.clf2 = LogisticRegression(C=1.0, max_iter=100, solver='sag', penalty='l2')
-        
+        #self.svm2 = SVC(kernel='linear', C=1000.0, probability=True, decision_function_shape='ovo', tol=0.001, shrinking=True, gamma=1.0)
         # Rambo Bêbado
         #self.clf = SGDClassifier(average=True, penalty='l2', loss='hinge', alpha=0.0001, epsilon=0.5, l1_ratio=0.01)
         #self.clf2 = SGDClassifier(average=True, penalty='l2', loss='log', alpha=0.0001, epsilon=0.43, l1_ratio=0.01)

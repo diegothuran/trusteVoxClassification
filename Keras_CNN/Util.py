@@ -158,20 +158,17 @@ def tokenize(text):
 def join_strings(list_of_strings):
     return " ".join(list_of_strings)
 
-def load_database2():
-    import os
-    database = []
-    labels =[]
-    database, labels = read_file('Data/database.csv')
+def load_store_database():
+    print('========= Buscando Dados Treino =============')
+    Dados = []
+    with open('Data/store_reviews.csv', 'rb') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            Dados.append(row[0])
+    print('=========== DONE =============================')
 
-    labels = np.array(labels)
-    labels = labels
-    replace_data(labels, 'Pro', 'Product')
-    replace_data(labels, 'Prod', 'Product')
-    replace_data(labels, ' ', '0')
-
-    #database, vectorizer = vectorize_database_tfidf(database)
-    return database, labels
+    database, vectorizer = vectorize_database_tfidf(Dados)
+    return database
 
 def timing(f):
     """
