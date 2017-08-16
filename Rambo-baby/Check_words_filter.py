@@ -48,7 +48,7 @@ if __name__ == '__main__':
     for i in range(len(database)):
         result, word = finding_matchs(database[i].lower(), words)
 
-        if not result and labels[i][1] == "Store":
+        if not result and labels[i][1] != "Store":
             false_negatives.append(database[i])
             matchs.append(word)
 
