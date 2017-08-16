@@ -1,10 +1,13 @@
-import yaml
 import Util
 import re
 import csv
 from Util import timing
+import unicodedata
+
 
 def searchWholeWord(w):
+    w = unicode(w, "utf-8")
+    w = unicodedata.normalize('NFD', w).encode('ascii', 'ignore')
     return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
 
 def read_words():
@@ -13,12 +16,16 @@ def read_words():
 
 @timing
 def finding_matchs(sentence=str, words=[]):
+    r = False
+    w = None
     for word in words:
         return_value = searchWholeWord(word)(sentence)
         if return_value:
+            r = True
+            w = word
             break
 
-    return return_value
+    return r, w
 
 
 

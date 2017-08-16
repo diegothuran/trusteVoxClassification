@@ -17,7 +17,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
 import numpy as np
 import time
-from imblearn.over_sampling import ADASYN
+
 
 def read_file(path):
     """
@@ -128,7 +128,7 @@ def load_database():
     replace_data(labels, ' ', '0')
 
     database, vectorizer = vectorize_database_tfidf(database)
-    return database, labels, vectorizer
+    return database.todense(), labels, vectorizer
 
 def load_store_database():
     print('========= Buscando Dados Treino =============')

@@ -1,13 +1,7 @@
 0800
-1a compra
-1a. compra
-2a compra
 2a feira
-2a. compra
 2a. feira
-3a compra
 3a feira
-3a. compra
 3a. feira
 4a feira
 4a. feira
@@ -15,8 +9,6 @@
 5a. feira
 6a feira
 6a. feira
-acima das espectativas
-acima das expectativas
 aconteceu conforme o combinado
 adorei o sait
 adorei o site
@@ -26,7 +18,6 @@ agilidade na liberação
 agilidadi na entrega
 aguardo imediato
 aguardu imediatu
-alguns dias
 amassada
 ambiente físico
 arrogante
@@ -40,8 +31,6 @@ atendenti
 atenderam meu chamado
 atenderam minha reclamação
 atendida
-atendido
-atendidu
 atendimento
 atendimento por telefone
 atendimentu
@@ -89,8 +78,6 @@ cansou de pedir
 cara de pau
 cara grosseiro
 cara grosso
-caro d+
-caro demais
 carteiro
 chegou antes
 chegou bem antes
@@ -144,8 +131,6 @@ despachou
 desrespeito
 devolução
 devolvam
-devolver
-devolvi
 dias depois
 diversidade de produtos
 domigo
@@ -202,12 +187,8 @@ entregue para terceiros
 entregue pra terceiros
 entrei em contato
 entrou em contato
-enviada
-enviado
-enviadu
 envio do produto
 enviou um código
-erro
 erro no pedido
 erro no produto
 esperar para receber
@@ -246,8 +227,6 @@ foi pontual
 foi pontuau
 foram respondidos
 forma de pagamento
-frete
-freti
 furtos
 ganhei um brinde
 grosseiru
@@ -261,14 +240,11 @@ klick e retire
 ligou várias vezes
 liguei várias vezes
 logística
-loja
 má fé
-mais barato
 mal atendido
 mal transportado
 mandá-lo de volta
 mas resolveram
-mas veio
 mau atendido
 mau transportado
 me deixou falando sozinho
@@ -276,8 +252,6 @@ mentiroso
 mimar o cliente
 muita demora
 muito bons descontos
-muito capricho
-muito caro
 muito sortida
 na internet
 não atendem
@@ -336,9 +310,6 @@ navegação fácil
 nenhuma atenção
 nota é para a empresa
 nota é para a loja
-nunca tive o menor dos problemas
-nunca tive problema
-nunca tive problemas
 opções de compra
 opções de pagamento
 ótimo atendimento
@@ -356,7 +327,6 @@ parcelamento
 parcelar
 paro de comprar
 passou a data
-pela internet
 pelo serviço
 péssima embalagem
 péssima entrega
@@ -364,19 +334,15 @@ péssima experiencia de compra
 pessoa grossa
 pessoa grosseira
 pontual
-porém veio
 pós venda
 pós-venda
 postagem
 pouco caso
-praticidade
 prazo de entrega
 prazo estipulado
-preço
 presente data
 prestativo
 prestativos
-primeira compra
 problema da empresa
 processo de compra
 produto demorou
@@ -424,7 +390,6 @@ sait de fácil acesso
 sait de fácil entendimento
 sait muito bom
 sedex
-segunda compra
 segunda feira
 segunda-feira
 segurança na compra
@@ -443,9 +408,6 @@ solucionaram meu problema
 solucionaram o problema
 solucionou meu problema
 solucionou o problema
-sou cliente
-super confiável
-superconfiável
 tele-vendas
 telefonei várias vezes
 telefonou várias vezes
@@ -453,7 +415,6 @@ televendas
 tempo hábil
 terça feira
 terça-feira
-terceira compra
 todo amassado
 todo o processo
 todo processo
@@ -469,3 +430,105 @@ vendedora
 visitei o sait
 visitei o site
 voltarei sempre
+com a entrega
+demorar pra entregar
+boa loja
+loja boa
+loja muito boa
+ótima loja
+loja ótima
+bem atendido
+compra fácil
+compra foi fácil
+compra bem fácil
+compra muito fácil
+compra foi muito fácil
+entregou antes
+entregou depois
+loja é boa
+loja é muito boa
+loja é otima
+loja é ruim
+loja é muito ruim
+loja é péssima
+loja é horrível
+loja é horrorosa
+ótimo serviço
+ótimo o serviço
+ainda não chegou
+meses de espera
+péssima logística
+nesse site
+site é difícil
+sait é difícil
+loja é muito confiável
+loja é confiável
+loja confiável
+loja não é muito confiável
+loja não é confiável
+na data certa
+site de confiança
+sait de confiança
+suporte ao cliente
+suporte ao consumidor
+entrega deveria ser
+entrega mais rápida
+compro nada
+compro mais nada
+entrega foi
+entrega deixou
+enrola o cliente
+enrola o consumidor
+enrola muito o cliente
+enrola muito o consumidor
+enrola demais o cliente
+enrola demais o consumidor
+rápida na entrega
+sem burocracias
+entrar em contato
+entregaram antes
+entregaram depois
+descaso
+melhor loja
+pior lojapreço
+não me responderam
+sequer me responderam
+demorou mais de
+excelente loja
+bem atendido
+fornecer protocolo
+prazos de entrega
+descrição falha
+descrição foi falha
+descrição foi muito falha
+qualidade e rapidez
+rapidez e qualidade
+chegou conforme
+demora para entrega
+antes do prazo
+antes dos prazos
+site de compra
+site de compras
+consigo trocar
+loja é nota
+loja nota
+mandar amostras
+mandar mais amostras
+mandar algumas amostras
+loja passa
+problema com frete
+problema com freti
+problema com o frete
+problema com o freti
+ótima loja
+otima loja
+foi rápido
+foi muito rápido
+loja entrega
+nunca mais compro aqui
+nunca mais comprarei aqui
+nunca mais compro nessa
+nunca mais comprarei nessa
+compra pela internet
+compra na internet
+ótima loja

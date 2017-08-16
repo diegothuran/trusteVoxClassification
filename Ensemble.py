@@ -6,6 +6,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
 from sklearn.svm import SVC
 import ignore_warnings
+from Util import timing
 
 
 class Ensemble:
@@ -13,10 +14,11 @@ class Ensemble:
     def __init__(self):
 
         print "Starting Classifiers..."
+        self.vectorizer = self.load_vec()
        
         self.clf = LogisticRegression(penalty='l2', C=1.0, max_iter=100, solver='liblinear')
-        self.clf2 = LogisticRegression(C=1.0, max_iter=100, solver='sag', penalty='l2')
-        #self.svm2 = SVC(kernel='linear', C=1000.0, probability=True, decision_function_shape='ovo', tol=0.001, shrinking=True, gamma=1.0)
+        #self.clf2 = LogisticRegression(C=1.0, max_iter=100, solver='sag', penalty='l2')
+        self.clf2 = SVC(kernel='linear', C=1000.0, probability=True, decision_function_shape='ovo', tol=0.001, shrinking=True, gamma=1.0)
         # Rambo Bêbado
         #self.clf = SGDClassifier(average=True, penalty='l2', loss='hinge', alpha=0.0001, epsilon=0.5, l1_ratio=0.01)
         #self.clf2 = SGDClassifier(average=True, penalty='l2', loss='log', alpha=0.0001, epsilon=0.43, l1_ratio=0.01)
@@ -33,7 +35,7 @@ class Ensemble:
         #print "Training MLP..."
         #self.clf.fit(train_dataset, labels_2)
 
-
+    @timing
     def predict(self, patter):
         is_product = self.clf.predict(patter)
         is_loja = self.clf2.predict(patter)
@@ -51,6 +53,8 @@ class Ensemble:
                 acertos += 1
         return float(float(acertos)/float(len(patters)))
 
+    def load_vec(self):
+        return joblib.load('Data/vectorizer.pkl')
 
     def save_ensemble(self):
         joblib.dump(self.clf, 'ClassifierWeigths/svm-02.pkl')
@@ -64,7 +68,7 @@ class Ensemble:
         errors = 0
 
         for i in range(len(patterns)):
-            a = vectorizer.transform([tokenize(patterns[i])])
+            a = self.vectorizer.transform([tokenize(patterns[i])])
             a = a.todense()
             classification = ensemble.predict(a)
             if labels[i][1] == 'Store' and classification[1] != 1:
@@ -74,15 +78,15 @@ class Ensemble:
 
         print "Stability = {0}".format(1 - float(errors)/len(patterns))
 if __name__ == "__main__":
-    database, labels, vectorizer = load_database()
-    results = []
-    melhor = 0
+    #database, labels, vectorizer = load_database()
+    #results = []
+    #melhor = 0
     ensemble = Ensemble()
-    ensemble.training_models(np.array(database), labels[:, 0], labels[:, 1])
-    ensemble.save_ensemble()
+    #ensemble.training_models(np.array(database), labels[:, 0], labels[:, 1])
+    #ensemble.save_ensemble()
 
-    joblib.dump(vectorizer, 'Data/vectorizer.pkl')
+    #joblib.dump(vectorizer, 'Data/vectorizer.pkl')
 
-    patterns, _ = read_file("Data/database.csv")
+    patterns, labels = read_file("Data/database.csv")
 
     ensemble.testinho(patterns, labels, verbose=1)
