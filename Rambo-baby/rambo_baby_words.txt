@@ -1,4 +1,4 @@
-0800
+800
 2a feira
 2a. feira
 3a feira
@@ -166,7 +166,9 @@ entrega mau feita
 entrega muito ágil
 entrega no prazo
 entrega péssima
+entrega pessima
 entrega rápida
+entrega rapida
 entrega rapidamente
 entrega ruim
 entrega ruinzinha
@@ -490,7 +492,7 @@ entregaram antes
 entregaram depois
 descaso
 melhor loja
-pior lojapreço
+pior loja
 não me responderam
 sequer me responderam
 demorou mais de
@@ -521,7 +523,6 @@ problema com freti
 problema com o frete
 problema com o freti
 ótima loja
-otima loja
 foi rápido
 foi muito rápido
 loja entrega
@@ -531,17 +532,3 @@ nunca mais compro nessa
 nunca mais comprarei nessa
 compra pela internet
 compra na internet
-otima loja
-pessima logistica
-chegou com amassado
-enrola facil o consumidor
-enrola faciu o consumidor
-difícil entrar em contado
-difícil contactar
-complicado de entrar em contado
-complicado de contactar
-demora da emissão
-emissão da nota fiscal
-não recebi minha encomenda
-recebi minha encomenda
-chegou corretamente

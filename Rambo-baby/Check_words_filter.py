@@ -6,8 +6,8 @@ import unicodedata
 
 
 def searchWholeWord(w):
-    w = unicode(w, "utf-8")
-    w = unicodedata.normalize('NFD', w).encode('ascii', 'ignore')
+    #w = unicode(w, "utf-8")
+    #w = unicodedata.normalize('NFD', w).encode('ascii', 'ignore')
     return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
 
 def read_words():
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     for i in range(len(database)):
         result, word = finding_matchs(database[i].lower(), words)
 
-        if not result and labels[i][1] != "Store":
+        if result and labels[i][1] != "Store":
             false_negatives.append(database[i])
             matchs.append(word)
 
@@ -56,6 +56,11 @@ if __name__ == '__main__':
     #                   labels[i][1] != 'Store']
 
     false_negatives = list(set(false_negatives))
+
+    #for i in range(300):
+    #    import random as r
+    #    j = r.randint(0, len(false_negatives)-1)
+    #    false_negatives.pop(j)
 
     with open('falsos positivos.csv', 'wb') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=',')
